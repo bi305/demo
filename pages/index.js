@@ -1,26 +1,28 @@
-import React from "react";
-import { Tabs, Row, Col} from "antd";
-import FirstTab from "../components/FirstTab";
+import React, { useState } from "react";
+import { Tabs, Row, Col, Button } from "antd";
+import FirstTab from "../components/MainTab/MainTab";
 import { data } from "../data";
- 
-
-const onChange = (key) => {
-	console.log(key);
-};
- 
 
 function App() {
-	 
+	// const [componentDublicator, setComponentDublicator] = useState([
+	// 	<FirstTab key={0} />,
+	// ]);
+	// let handleAddSection = (e) => {
+	// 	e.preventDefault();
+	// 	setComponentDublicator([
+	// 		...componentDublicator,
+	// 		<FirstTab key={componentDublicator.length} />,
+	// 	]);
+	// };
 	return (
-		<Row>
-			<Col span={24}>
-				<h1>Create Course</h1>
+		<Row gutter={[0, 10]} className="p-5 bg-slate-400">
+			<Col className="gutter-row" md={24}>
+				<h1 className="text-3xl">Create Course</h1>
 			</Col>
-		 
-			<Col span={20}>
+
+			<Col className="gutter-row" md={20} style={{}}>
 				<Tabs
 					defaultActiveKey="1"
-					onChange={onChange}
 					items={data.course_menu_header_list.map((data, index) => {
 						const id = index + 1;
 						return {
@@ -28,7 +30,12 @@ function App() {
 							key: id,
 							children: (
 								<>
-									{id === 1 && <FirstTab />}
+									{id === 1 && (
+										<>
+											<FirstTab />
+											{/* <Button onClick={handleAddSection}>ADD SECTION</Button> */}
+										</>
+									)}
 									{id === 2 && (
 										<h1>
 											<FirstTab />
@@ -36,6 +43,7 @@ function App() {
 									)}
 									{id === 3 && <h1>tab 3 content</h1>}
 									{id === 4 && <h1>tab 4 content</h1>}
+									{id === 5 && <h1>others</h1>}
 								</>
 							),
 						};

@@ -1,7 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .controls-container {
 	height: 15%;
-	display: flex;
-	justify-content: space-evenly;
+
 	padding: 0.5rem;
 }
 
@@ -30,13 +32,6 @@
 	animation-name: animated-block;
 	animation-duration: 2s;
 	animation-iteration-count: infinite;
-}
-
-.recording-time {
-	width: 80%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 }
 
 .cancel-button-container {
@@ -89,15 +84,6 @@
 	text-align: center;
 }
 
-.no-records {
-	height: 100%;
-	display: grid;
-	place-content: center;
-	place-items: center;
-	font-size: 2rem;
-	text-align: center;
-}
-
 .recordings-list::-webkit-scrollbar {
 	width: 5px;
 }
@@ -115,17 +101,6 @@
 	display: grid;
 	justify-content: center;
 	overflow-y: auto;
-}
-
-.record {
-	display: flex;
-	justify-content: space-evenly;
-	padding: 0.5rem;
-}
-
-.record audio {
-	min-width: 80%;
-	max-width: 60%;
 }
 
 .delete-button-container {
