@@ -15,7 +15,7 @@ function App() {
 	// 	]);
 	// };
 	return (
-		<div className="p-5 bg-slate-400 " style={{ height: "500px" }}>
+		<div className="p-5 bg-slate-400 " style={{ height: "120vh" }}>
 			<Row gutter={[0, 10]} className="p-5 ">
 				<Col className="gutter-row" md={24}>
 					<h1 className="text-3xl">Create Course</h1>
