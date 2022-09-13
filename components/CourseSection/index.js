@@ -10,18 +10,12 @@ const ReactMediaRecorder = dynamic(
 	}
 );
 
-const onFinish = (values) => {
-	console.log("Success:", values);
-};
+ 
 
-const onFinishFailed = (errorInfo) => {
-	console.log("Failed:", errorInfo);
-};
-
-const CourseSection = ({ renderKey }) => {
+const CourseSection = ({ renderKey,onFinish }) => {
 	const [state, setState] = useState(false);
 	const [componentDublicator, setComponentDublicator] = useState([
-		<SectionSnippert key={0} renderKey={0} />,
+		<SectionSnippert key={0} renderKey={0}  handleSubmit={()=>{}} />,
 	]);
 	let handleAddSection = (e) => {
 		setComponentDublicator([
@@ -54,7 +48,7 @@ const CourseSection = ({ renderKey }) => {
                     backgroundColor:'#A6ADBA'
 				}}
 			>
-				<Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+				<Form onFinish={onFinish} >
 					<Form.Item
 						label="section Title"
 						name={`section_title_${renderKey}`}

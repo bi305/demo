@@ -23,7 +23,7 @@ const onFinishFailed = (errorInfo) => {
 const MainTab = () => {
     const [state, setState] = useState(false);
     const [componentDublicator, setComponentDublicator] = useState([
-        <CourseSection key={0} renderKey={0} />,
+        <CourseSection key={0} renderKey={0} onFinish={() => { }} />,
     ]);
     let handleAddSection = (e) => {
 
@@ -42,10 +42,10 @@ const MainTab = () => {
         status,
         errorMessage
     } = useAudioRecorder()
-    console.log(audioResult)
+    console.log(audioResult,"audioResult")
     return (
         <>
-            <div style={{ border: "1px solid black", marginTop: '30px', padding: '3rem',backgroundColor:'#C2C5CD' }}>
+            <div style={{ border: "1px solid black", marginTop: '30px', padding: '3rem', backgroundColor: '#C2C5CD' }}>
 
                 <Form onFinish={onFinish} onFinishFailed={onFinishFailed} >
                     <Form.Item
