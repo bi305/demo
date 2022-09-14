@@ -10,15 +10,9 @@ const ReactMediaRecorder = dynamic(
     }
 );
 
-const onFinish = (values) => {
-    console.log("Success:", values);
-};
 
-const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-};
 
-const SectionSnippert = ({ renderKey }) => {
+const SectionSnippert = ({ renderKey, snippetValues }) => {
     const {
         audioResult,
         timer,
@@ -27,20 +21,19 @@ const SectionSnippert = ({ renderKey }) => {
         pauseRecording,
         resumeRecording,
         status,
-        errorMessage,
+
     } = useAudioRecorder();
     return (
         <>
             <h1 className="text-3xl my-4">Snippet no# {renderKey + 1}</h1>
             <div style={{ border: "1px solid black", marginTop: '30px', padding: '3rem', backgroundColor: "#65737E" }}>
                 <Form
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
+                    onFinish={snippetValues}
 
                 >
                     <Form.Item
                         label="Word Meaning"
-                        name={`section_title_${renderKey}`}
+                        name={`section_title_${renderKey + 1}`}
                         rules={[
                             {
                                 required: true,

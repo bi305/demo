@@ -10,12 +10,10 @@ const ReactMediaRecorder = dynamic(
 	}
 );
 
- 
-
-const CourseSection = ({ renderKey,onFinish }) => {
+const CourseSection = ({ renderKey, sectionValues, snippetValues }) => {
 	const [state, setState] = useState(false);
 	const [componentDublicator, setComponentDublicator] = useState([
-		<SectionSnippert key={0} renderKey={0}  handleSubmit={()=>{}} />,
+		<SectionSnippert key={0} renderKey={0} snippetValues={snippetValues} />,
 	]);
 	let handleAddSection = (e) => {
 		setComponentDublicator([
@@ -23,6 +21,7 @@ const CourseSection = ({ renderKey,onFinish }) => {
 			<SectionSnippert
 				key={componentDublicator.length}
 				renderKey={componentDublicator.length}
+				snippetValues={snippetValues}
 			/>,
 		]);
 	};
@@ -45,13 +44,13 @@ const CourseSection = ({ renderKey,onFinish }) => {
 					border: "1px solid black",
 					marginTop: "30px",
 					padding: "3rem",
-                    backgroundColor:'#A6ADBA'
+					backgroundColor: "#A6ADBA",
 				}}
 			>
-				<Form onFinish={onFinish} >
+				<Form onFinish={sectionValues}>
 					<Form.Item
 						label="section Title"
-						name={`section_title_${renderKey}`}
+						name={`section_title_${renderKey + 1}`}
 						rules={[
 							{
 								required: true,
@@ -63,7 +62,7 @@ const CourseSection = ({ renderKey,onFinish }) => {
 					</Form.Item>
 					<Form.Item
 						label="section number"
-						name={`section_number_${renderKey}`}
+						name={`section_number_${renderKey + 1}`}
 						rules={[
 							{
 								required: true,
@@ -76,7 +75,7 @@ const CourseSection = ({ renderKey,onFinish }) => {
 
 					<Form.Item
 						label="section Desc."
-						name={`section_desc_${renderKey}`}
+						name={`section_desc_${renderKey + 1}`}
 						rules={[
 							{
 								required: true,
@@ -91,6 +90,7 @@ const CourseSection = ({ renderKey,onFinish }) => {
 						<div className="w-96">
 							<div>
 								<audio controls src={audioResult} />
+								{audioResult}
 								<p>
 									Status : <b>{status}</b>
 								</p>
