@@ -4,7 +4,7 @@ import {
     useRecordWebcam,
     CAMERA_STATUS
 } from "react-record-webcam";
-import { Button, Dropdown, Menu,   } from 'antd';
+import { Button, Dropdown, Menu, } from 'antd';
 const OPTIONS = {
     filename: "test-filename",
     fileType: "mp4",
@@ -12,11 +12,21 @@ const OPTIONS = {
     height: 400
 };
 
-const videoRecorder = () => {
+const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnippetVideo }) => {
     const recordWebcam = useRecordWebcam(OPTIONS);
     const getRecordingFileHooks = async () => {
         const blob = await recordWebcam.getRecording();
         console.log({ blob });
+        if (parentCaller === "course") {
+            setCourseVideo(blob)
+        }
+        if (parentCaller === "course_section") {
+            setSectionVideo(blob)
+        }
+        if (parentCaller === "section_snippet") {
+            setSnippetVideo(blob)
+        }
+
     };
 
     const getRecordingFileRenderProp = async (blob) => {
@@ -25,37 +35,9 @@ const videoRecorder = () => {
     const menu = (
         <Menu
             items={[
+
                 {
                     key: '1',
-                    label: (
-                        <button
-                            disabled={
-                                recordWebcam.status === CAMERA_STATUS.OPEN ||
-                                recordWebcam.status === CAMERA_STATUS.RECORDING ||
-                                recordWebcam.status === CAMERA_STATUS.PREVIEW
-                            }
-                            onClick={recordWebcam.open}
-                        >
-                            Open camera
-                        </button>
-                    ),
-                },
-                {
-                    key: '2',
-                    label: (
-                        <button
-                            disabled={
-                                recordWebcam.status === CAMERA_STATUS.CLOSED ||
-                                recordWebcam.status === CAMERA_STATUS.PREVIEW
-                            }
-                            onClick={recordWebcam.close}
-                        >
-                            Close camera
-                        </button>
-                    ),
-                },
-                {
-                    key: '3',
                     label: (
                         <button
                             disabled={
@@ -70,7 +52,7 @@ const videoRecorder = () => {
                     ),
                 },
                 {
-                    key: '4',
+                    key: '2',
                     label: (
 
                         <button
@@ -81,7 +63,7 @@ const videoRecorder = () => {
                         </button>
                     ),
                 }, {
-                    key: '5',
+                    key: '3',
                     label: (
                         <button
                             disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
@@ -91,7 +73,7 @@ const videoRecorder = () => {
                         </button>
                     ),
                 }, {
-                    key: '6',
+                    key: '4',
                     label: (
                         <button
                             disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
@@ -101,7 +83,7 @@ const videoRecorder = () => {
                         </button>
                     ),
                 }, {
-                    key: '7',
+                    key: '5',
                     label: (
                         <button
                             disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
@@ -119,11 +101,29 @@ const videoRecorder = () => {
 
             <div>
                 <p>Camera status: {recordWebcam.status}</p>
-                <Dropdown overlay={menu} placement="bottomLeft">
+
+                <div style={{ cursor: 'pointer' }}
+                    disabled={
+                        recordWebcam.status === CAMERA_STATUS.OPEN ||
+                        recordWebcam.status === CAMERA_STATUS.RECORDING ||
+                        recordWebcam.status === CAMERA_STATUS.PREVIEW
+                    }
+                    onClick={recordWebcam.open}
+                >
+                    Open camera
+                </div>
+                <div style={{ cursor: 'pointer' }}
+                    disabled={
+                        recordWebcam.status === CAMERA_STATUS.CLOSED ||
+                        recordWebcam.status === CAMERA_STATUS.PREVIEW
+                    }
+                    onClick={recordWebcam.close}
+                >
+                    Close camera
+                </div>
+                <Dropdown overlay={menu} placement="top">
                     <Button>Video Options</Button>
                 </Dropdown>
-
-
                 <video
                     ref={recordWebcam.webcamRef}
                     style={{

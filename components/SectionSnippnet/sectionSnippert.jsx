@@ -12,7 +12,7 @@ const ReactMediaRecorder = dynamic(
 
 
 
-const SectionSnippert = ({ renderKey, snippetValues }) => {
+const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippetVideo, }) => {
     const {
         audioResult,
         timer,
@@ -33,7 +33,7 @@ const SectionSnippert = ({ renderKey, snippetValues }) => {
                 >
                     <Form.Item
                         label="Word Meaning"
-                        name={`section_title_${renderKey + 1}`}
+                        name={`snippet_${renderKey + 1}`}
                         rules={[
                             {
                                 required: true,
@@ -44,52 +44,71 @@ const SectionSnippert = ({ renderKey, snippetValues }) => {
                         <Input />
                     </Form.Item>
 
-                    <div className="flex md:ml-20 sm:ml-0">
-                        <div className="w-96">
-                            <div>
-                                <audio controls src={audioResult} />
-                                <p>
-                                    Status : <b>{status}</b>
-                                </p>
+                    <div className="md:grid md:grid-cols-2 md:ml">
 
+                        <div>
+                            <audio controls src={audioResult} style={{
+                                maxHeight: "100%",
+                                maxWidth: "100%",
+                                objectFit: "contain",
+                            }} />
+                            <p>
+                                Status : <b>{status}</b>
+                            </p>
+
+                            <div>
+                                <p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
                                 <div>
-                                    <p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
-                                    <div>
-                                        <Button
-                                            style={{ cursor: "pointer" }}
-                                            className="p-1"
-                                            onClick={startRecording}
-                                        >
-                                            Start
-                                        </Button>
-                                        <Button
-                                            style={{ cursor: "pointer" }}
-                                            className="p-1"
-                                            onClick={stopRecording}
-                                        >
-                                            Stop
-                                        </Button>
-                                        <Button
-                                            style={{ cursor: "pointer" }}
-                                            className="p-1"
-                                            onClick={pauseRecording}
-                                        >
-                                            Pause
-                                        </Button>
-                                        <Button
-                                            style={{ cursor: "pointer" }}
-                                            className="p-1"
-                                            onClick={resumeRecording}
-                                        >
-                                            Resume
-                                        </Button>
-                                    </div>
+                                    <Button
+                                        style={{ cursor: "pointer" }}
+                                        className="p-1"
+                                        onClick={() => {
+                                            startRecording;
+                                            setSnippetAudio("")
+                                        }}
+                                    >
+                                        Start
+                                    </Button>
+                                    <Button
+                                        style={{ cursor: "pointer" }}
+                                        className="p-1"
+                                        onClick={() => {
+                                            stopRecording;
+                                            setSnippetAudio(audioResult)
+                                        }}
+                                    >
+                                        Stop
+                                    </Button>
+                                    <Button
+                                        style={{ cursor: "pointer" }}
+                                        className="p-1"
+                                        onClick={() => {
+                                            pauseRecording;
+                                            setSnippetAudio("")
+                                        }}
+                                    >
+                                        Pause
+                                    </Button>
+                                    <Button
+                                        style={{ cursor: "pointer" }}
+                                        className="p-1"
+                                        onClick={() => {
+                                            resumeRecording;
+                                            setSnippetAudio("")
+                                        }}
+                                    >
+                                        Resume
+                                    </Button>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="w-52">
-                            <ReactMediaRecorder />
+
+                        <div className="pl-5">
+                            <ReactMediaRecorder
+                                setSnippetVideo={setSnippetVideo}
+                                parentCaller={"section_snippet"}
+                            />
                         </div>
                     </div>
 

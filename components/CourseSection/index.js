@@ -10,10 +10,24 @@ const ReactMediaRecorder = dynamic(
 	}
 );
 
-const CourseSection = ({ renderKey, sectionValues, snippetValues }) => {
+const CourseSection = ({
+	renderKey,
+	sectionValues,
+	snippetValues,
+	setSectionAudio,
+	setSectionVideo,
+	setSnippetAudio,
+	setSnippetVideo,
+}) => {
 	const [state, setState] = useState(false);
 	const [componentDublicator, setComponentDublicator] = useState([
-		<SectionSnippert key={0} renderKey={0} snippetValues={snippetValues} />,
+		<SectionSnippert
+			key={0}
+			renderKey={0}
+			snippetValues={snippetValues}
+			setSnippetAudio={setSnippetAudio}
+			setSnippetVideo={setSnippetVideo}
+		/>,
 	]);
 	let handleAddSection = (e) => {
 		setComponentDublicator([
@@ -22,6 +36,8 @@ const CourseSection = ({ renderKey, sectionValues, snippetValues }) => {
 				key={componentDublicator.length}
 				renderKey={componentDublicator.length}
 				snippetValues={snippetValues}
+				setSnippetAudio={setSnippetAudio}
+				setSnippetVideo={setSnippetVideo}
 			/>,
 		]);
 	};
@@ -86,53 +102,73 @@ const CourseSection = ({ renderKey, sectionValues, snippetValues }) => {
 						<Input />
 					</Form.Item>
 
-					<div className="flex md:ml-20 sm:ml-0">
-						<div className="w-96">
-							<div>
-								<audio controls src={audioResult} />
-								{audioResult}
-								<p>
-									Status : <b>{status}</b>
-								</p>
+					<div className="md:grid md:grid-cols-2 md:ml">
+						<div>
+							<audio
+								controls
+								src={audioResult}
+								style={{
+									maxHeight: "100%",
+									maxWidth: "100%",
+									objectFit: "contain",
+								}}
+							/>
 
+							<p>
+								Status : <b>{status}</b>
+							</p>
+
+							<div>
+								<p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
 								<div>
-									<p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
-									<div>
-										<Button
-											style={{ cursor: "pointer" }}
-											className="p-1"
-											onClick={startRecording}
-										>
-											Start
-										</Button>
-										<Button
-											style={{ cursor: "pointer" }}
-											className="p-1"
-											onClick={stopRecording}
-										>
-											Stop
-										</Button>
-										<Button
-											style={{ cursor: "pointer" }}
-											className="p-1"
-											onClick={pauseRecording}
-										>
-											Pause
-										</Button>
-										<Button
-											style={{ cursor: "pointer" }}
-											className="p-1"
-											onClick={resumeRecording}
-										>
-											Resume
-										</Button>
-									</div>
+									<Button
+										style={{ cursor: "pointer" }}
+										className="p-1"
+										onClick={() => {
+											startRecording();
+											setSectionAudio("");
+										}}
+									>
+										Start
+									</Button>
+									<Button
+										style={{ cursor: "pointer" }}
+										className="p-1"
+										onClick={() => {
+											stopRecording();
+											setSectionAudio(audioResult);
+										}}
+									>
+										Stop
+									</Button>
+									<Button
+										style={{ cursor: "pointer" }}
+										className="p-1"
+										onClick={() => {
+											pauseRecording();
+											setSectionAudio("");
+										}}
+									>
+										Pause
+									</Button>
+									<Button
+										style={{ cursor: "pointer" }}
+										className="p-1"
+										onClick={() => {
+											resumeRecording();
+											setSectionAudio("");
+										}}
+									>
+										Resume
+									</Button>
 								</div>
 							</div>
 						</div>
-
-						<div className="w-52">
-							<ReactMediaRecorder />
+						<div className="pl-5">
+							<ReactMediaRecorder
+								setSectionVideo={setSectionVideo}
+								parentCaller={"course_section"}
+							/>
 						</div>
 					</div>
 
