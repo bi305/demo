@@ -63,7 +63,7 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         style={{ cursor: "pointer" }}
                                         className="p-1"
                                         onClick={() => {
-                                            startRecording;
+                                            startRecording();
                                             setSnippetAudio("")
                                         }}
                                     >
@@ -73,7 +73,7 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         style={{ cursor: "pointer" }}
                                         className="p-1"
                                         onClick={() => {
-                                            stopRecording;
+                                            stopRecording();
                                             setSnippetAudio(audioResult)
                                         }}
                                     >
@@ -83,7 +83,7 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         style={{ cursor: "pointer" }}
                                         className="p-1"
                                         onClick={() => {
-                                            pauseRecording;
+                                            pauseRecording();
                                             setSnippetAudio("")
                                         }}
                                     >
@@ -93,7 +93,7 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         style={{ cursor: "pointer" }}
                                         className="p-1"
                                         onClick={() => {
-                                            resumeRecording;
+                                            resumeRecording();
                                             setSnippetAudio("")
                                         }}
                                     >
