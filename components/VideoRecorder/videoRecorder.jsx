@@ -5,6 +5,8 @@ import {
     CAMERA_STATUS
 } from "react-record-webcam";
 import { Button, Dropdown, Menu, } from 'antd';
+import { faCamera, faRecordVinyl, faVideo, faStopwatch, faDownload, faTrashRestoreAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const OPTIONS = {
     filename: "test-filename",
     fileType: "mp4",
@@ -97,11 +99,17 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
         />
     );
     return (
-        <div>
+        <>
 
-            <div>
+            <div style={{
+                height: '100%',
+                padding: '50px',
+                borderRadius: '20px',
+                background: 'linear-gradient(225deg, #cacaca, #f0f0f0)',
+                boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
+            }}>
                 <p>Camera status: {recordWebcam.status}</p>
-
+                {/* 
                 <div style={{ cursor: 'pointer' }}
                     disabled={
                         recordWebcam.status === CAMERA_STATUS.OPEN ||
@@ -123,7 +131,59 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
                 </div>
                 <Dropdown overlay={menu} placement="top">
                     <Button>Video Options</Button>
-                </Dropdown>
+                </Dropdown> */}
+                <div>
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={
+                            recordWebcam.status === CAMERA_STATUS.OPEN ||
+                            recordWebcam.status === CAMERA_STATUS.RECORDING ||
+                            recordWebcam.status === CAMERA_STATUS.PREVIEW
+                        }
+                        onClick={recordWebcam.open}
+                    >
+                        Open <FontAwesomeIcon icon={faCamera} />
+                    </span>
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={
+                            recordWebcam.status === CAMERA_STATUS.CLOSED ||
+                            recordWebcam.status === CAMERA_STATUS.PREVIEW
+                        }
+                        onClick={recordWebcam.close}
+                    >
+                        Close <FontAwesomeIcon icon={faVideo} />
+                    </span>
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={
+                            recordWebcam.status === CAMERA_STATUS.CLOSED ||
+                            recordWebcam.status === CAMERA_STATUS.RECORDING ||
+                            recordWebcam.status === CAMERA_STATUS.PREVIEW
+                        }
+                        onClick={recordWebcam.start}
+                    >
+                        Start <FontAwesomeIcon icon={faStopwatch} />
+                    </span>
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={recordWebcam.status !== CAMERA_STATUS.RECORDING}
+                        onClick={recordWebcam.stop}
+                    >
+                        Stop  <FontAwesomeIcon icon={faRecordVinyl} />
+
+                    </span>
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
+                        onClick={recordWebcam.retake}
+                    >
+                        Retake <FontAwesomeIcon icon={faTrashRestoreAlt} />
+                    </span>
+
+                    <span className='p-2' style={{ cursor: 'pointer' }}
+                        disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
+                        onClick={getRecordingFileHooks}
+                    >
+                        recording <FontAwesomeIcon icon={faDownload} />
+                    </span>
+                </div>
+
                 <video
                     ref={recordWebcam.webcamRef}
                     style={{
@@ -145,7 +205,7 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
                     controls
                 />
             </div>
-        </div>
+        </ >
     )
 }
 

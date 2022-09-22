@@ -4,24 +4,20 @@ import FirstTab from "../components/MainTab/MainTab";
 import { data } from "../data";
 
 function App() {
-	// const [componentDublicator, setComponentDublicator] = useState([
-	// 	<FirstTab key={0} />,
-	// ]);
-	// let handleAddSection = (e) => {
-	// 	e.preventDefault();
-	// 	setComponentDublicator([
-	// 		...componentDublicator,
-	// 		<FirstTab key={componentDublicator.length} />,
-	// 	]);
-	// };
 	return (
-		<div className="p-5 bg-slate-400 " style={{ height: "100%" }}>
+		<div
+			className="p-5 "
+			style={{
+				height: "100%",
+				background: "linear-gradient(320deg,#f27121,#e94057,#8a2387)",
+			}}
+		>
 			<Row gutter={[0, 10]} className="p-5 ">
 				<Col className="gutter-row" md={24}>
-					<h1 className="text-3xl">Create Course</h1>
+					<h1 className="text-8xl font-bold">Create Course</h1>
 				</Col>
 
-				<Col className="gutter-row" md={20} style={{}}>
+				<Col className="gutter-row" md={24} style={{}}>
 					<Tabs
 						defaultActiveKey="1"
 						items={data.course_menu_header_list.map((data, index) => {
@@ -34,7 +30,6 @@ function App() {
 										{id === 1 && (
 											<>
 												<FirstTab />
-												{/* <Button onClick={handleAddSection}>ADD SECTION</Button> */}
 											</>
 										)}
 										{id === 2 && (

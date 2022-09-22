@@ -1,8 +1,10 @@
-
-import { useState } from "react";
 import { Form, Input, Button } from "antd";
 import dynamic from "next/dynamic";
 import { useAudioRecorder } from "@sarafhbk/react-audio-recorder";
+import { motion } from "framer-motion";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMicrophone, faPause, faStop, faPlay, } from '@fortawesome/free-solid-svg-icons';
 const ReactMediaRecorder = dynamic(
     () => import("../VideoRecorder/videoRecorder"),
     {
@@ -25,98 +27,136 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
     } = useAudioRecorder();
     return (
         <>
-            <h1 className="text-3xl my-4">Snippet no# {renderKey + 1}</h1>
-            <div style={{ border: "1px solid black", marginTop: '30px', padding: '3rem', backgroundColor: "#65737E" }}>
-                <Form
-                    onFinish={snippetValues}
+            <motion.div
 
-                >
-                    <Form.Item
-                        label="Word Meaning"
-                        name={`snippet_${renderKey + 1}`}
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your section Title!",
-                            },
-                        ]}
+                initial="hidden"
+                animate="visible"
+                variants={{
+                    hidden: {
+                        scale: 0.8,
+                        opacity: 0,
+                    },
+                    visible: {
+                        scale: 1,
+                        opacity: 1,
+                        transition: {
+                            delay: 0.4,
+                        },
+
+                    },
+                    KeyframeEffect
+                }}
+            >
+
+                <h1 className="text-3xl my-4">Snippet no# {renderKey + 1}</h1>
+                <div style={{
+                    marginTop: '30px', padding: '3rem',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '16px',
+                    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                    backdropFilter: 'blur(5px)',
+                    webkitBackdropFilter: 'blur(5px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+
+                }}>
+                    <Form
+                        onFinish={snippetValues}
+
                     >
-                        <Input />
-                    </Form.Item>
+                        <Form.Item
+                            label="Word Meaning"
+                            name={`snippet_${renderKey + 1}`}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your section Title!",
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
 
-                    <div className="md:grid md:grid-cols-2 md:ml">
+                        <div className="md:grid md:grid-cols-2 md:ml-20" >
 
-                        <div>
-                            <audio controls src={audioResult} style={{
-                                maxHeight: "100%",
-                                maxWidth: "100%",
-                                objectFit: "contain",
-                            }} />
-                            <p>
-                                Status : <b>{status}</b>
-                            </p>
+                            <div style={{
+                                height: '100%',
+                                padding: '50px',
+                                borderRadius: '20px',
+                                background: 'linear-gradient(225deg, #cacaca, #f0f0f0)',
+                                boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
+                            }}>
 
-                            <div>
-                                <p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
+                                <p>
+                                    Status : <b>{status}</b>
+                                </p>
+
                                 <div>
-                                    <Button
-                                        style={{ cursor: "pointer" }}
-                                        className="p-1"
-                                        onClick={() => {
-                                            startRecording();
-                                            setSnippetAudio("")
-                                        }}
-                                    >
-                                        Start
-                                    </Button>
-                                    <Button
-                                        style={{ cursor: "pointer" }}
-                                        className="p-1"
-                                        onClick={() => {
-                                            stopRecording();
-                                            setSnippetAudio(audioResult)
-                                        }}
-                                    >
-                                        Stop
-                                    </Button>
-                                    <Button
-                                        style={{ cursor: "pointer" }}
-                                        className="p-1"
-                                        onClick={() => {
-                                            pauseRecording();
-                                            setSnippetAudio("")
-                                        }}
-                                    >
-                                        Pause
-                                    </Button>
-                                    <Button
-                                        style={{ cursor: "pointer" }}
-                                        className="p-1"
-                                        onClick={() => {
-                                            resumeRecording();
-                                            setSnippetAudio("")
-                                        }}
-                                    >
-                                        Resume
-                                    </Button>
+                                    <p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
+                                    <div>
+                                        <span
+                                            style={{ cursor: "pointer" }}
+                                            className="p-3"
+                                            onClick={() => {
+                                                startRecording();
+                                                setSnippetAudio("")
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faMicrophone} />
+                                        </span>
+                                        <span
+                                            style={{ cursor: "pointer" }}
+                                            className="p-3"
+                                            onClick={() => {
+                                                stopRecording();
+                                                setSnippetAudio(audioResult)
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faStop} />
+                                        </span>
+                                        <span
+                                            style={{ cursor: "pointer" }}
+                                            className="p-3"
+                                            onClick={() => {
+                                                pauseRecording();
+                                                setSnippetAudio("")
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faPause} />
+                                        </span>
+                                        <span
+                                            style={{ cursor: "pointer" }}
+                                            className="p-3"
+                                            onClick={() => {
+                                                resumeRecording();
+                                                setSnippetAudio("")
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faPlay} />
+                                        </span>
+                                        {audioResult && <audio className='mt-3' controls src={audioResult} style={{
+                                            maxHeight: '100%',
+                                            maxWidth: '100%',
+                                            objectFit: 'contain'
+                                        }} />}
+                                    </div>
                                 </div>
+                            </div>
+
+
+                            <div className="pl-5">
+                                <ReactMediaRecorder
+                                    setSnippetVideo={setSnippetVideo}
+                                    parentCaller={"section_snippet"}
+                                />
                             </div>
                         </div>
 
-
-                        <div className="pl-5">
-                            <ReactMediaRecorder
-                                setSnippetVideo={setSnippetVideo}
-                                parentCaller={"section_snippet"}
-                            />
-                        </div>
-                    </div>
-
-                    <Form.Item>
-                        <Button htmlType="submit">Submit</Button>
-                    </Form.Item>
-                </Form>
-            </div>
+                        <Form.Item >
+                            <Button htmlType="submit">Submit</Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </motion.div>
         </>
     );
 };

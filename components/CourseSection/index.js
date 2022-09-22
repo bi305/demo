@@ -3,6 +3,14 @@ import { Form, Input, Button } from "antd";
 import dynamic from "next/dynamic";
 import { useAudioRecorder } from "@sarafhbk/react-audio-recorder";
 import SectionSnippert from "../SectionSnippnet";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faMicrophone,
+	faPause,
+	faStop,
+	faPlay,
+} from "@fortawesome/free-solid-svg-icons";
 const ReactMediaRecorder = dynamic(
 	() => import("../VideoRecorder/videoRecorder"),
 	{
@@ -54,144 +62,177 @@ const CourseSection = ({
 	} = useAudioRecorder();
 	return (
 		<>
-			<h1 className="text-3xl my-4">Section no #{renderKey + 1}</h1>
-			<div
-				style={{
-					border: "1px solid black",
-					marginTop: "30px",
-					padding: "3rem",
-					backgroundColor: "#A6ADBA",
-				}}
+			<motion.div
+				initial="hidden"
+				animate={{ y: [-100, 8, -4, 4 - 2, 0] }}
+				// animate="visible"
+				// variants={{
+				// 	hidden: {
+				// 		scale: 0.8,
+				// 		opacity: 0,
+				// 	},
+				// 	visible: {
+				// 		scale: 1,
+				// 		opacity: 1,
+				// 		transition: {
+				// 			delay: 0.4,
+				// 		},
+				// 	},
+				// }}
 			>
-				<Form onFinish={sectionValues}>
-					<Form.Item
-						label="section Title"
-						name={`section_title_${renderKey + 1}`}
-						rules={[
-							{
-								required: true,
-								message: "Please input your section Title!",
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
-					<Form.Item
-						label="section number"
-						name={`section_number_${renderKey + 1}`}
-						rules={[
-							{
-								required: true,
-								message: "Please input your section number!",
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
+				<h1 className="text-3xl my-4">Section no #{renderKey + 1}</h1>
+				<div
+					style={{
+						marginTop: "30px",
+						padding: "3rem",
+						background: "rgba(255, 255, 255, 0.0)",
+						borderRadius: "16px",
+						boxShadow: "0 4px 30px rgba(0, 0, 0, 0.0)",
+						backdropFilter: "blur(1px)",
+						webkitBackdropFilter: "blur(5px)",
+						border: "1px solid rgba(255, 255, 255, 0.0)",
+					}}
+				>
+					<Form onFinish={sectionValues}>
+						<Form.Item
+							label="section Title"
+							name={`section_title_${renderKey + 1}`}
+							rules={[
+								{
+									required: true,
+									message: "Please input your section Title!",
+								},
+							]}
+						>
+							<Input />
+						</Form.Item>
+						<Form.Item
+							label="section number"
+							name={`section_number_${renderKey + 1}`}
+							rules={[
+								{
+									required: true,
+									message: "Please input your section number!",
+								},
+							]}
+						>
+							<Input />
+						</Form.Item>
 
-					<Form.Item
-						label="section Desc."
-						name={`section_desc_${renderKey + 1}`}
-						rules={[
-							{
-								required: true,
-								message: "Please input your section Desc.!",
-							},
-						]}
-					>
-						<Input />
-					</Form.Item>
+						<Form.Item
+							label="section Desc."
+							name={`section_desc_${renderKey + 1}`}
+							rules={[
+								{
+									required: true,
+									message: "Please input your section Desc.!",
+								},
+							]}
+						>
+							<Input />
+						</Form.Item>
 
-					<div className="md:grid md:grid-cols-2 md:ml">
-						<div>
-							<audio
-								controls
-								src={audioResult}
+						<div className="md:grid md:grid-cols-2 md:ml-20">
+							<div
 								style={{
-									maxHeight: "100%",
-									maxWidth: "100%",
-									objectFit: "contain",
+									height: '100%',
+									padding: '50px',
+									borderRadius: '20px',
+									background: 'linear-gradient(225deg, #cacaca, #f0f0f0)',
+									boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
 								}}
-							/>
+							>
+								<p>
+									Status : <b>{status}</b>
+								</p>
 
-							<p>
-								Status : <b>{status}</b>
-							</p>
-
-							<div>
-								<p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
 								<div>
-									<Button
-										style={{ cursor: "pointer" }}
-										className="p-1"
-										onClick={() => {
-											startRecording();
-											setSectionAudio("");
-										}}
-									>
-										Start
-									</Button>
-									<Button
-										style={{ cursor: "pointer" }}
-										className="p-1"
-										onClick={() => {
-											stopRecording();
-											setSectionAudio(audioResult);
-										}}
-									>
-										Stop
-									</Button>
-									<Button
-										style={{ cursor: "pointer" }}
-										className="p-1"
-										onClick={() => {
-											pauseRecording();
-											setSectionAudio("");
-										}}
-									>
-										Pause
-									</Button>
-									<Button
-										style={{ cursor: "pointer" }}
-										className="p-1"
-										onClick={() => {
-											resumeRecording();
-											setSectionAudio("");
-										}}
-									>
-										Resume
-									</Button>
+									<p>{new Date(timer * 1000).toISOString().substr(11, 8)}</p>
+									<div>
+										<span
+											style={{ cursor: "pointer" }}
+											className="p-3"
+											onClick={() => {
+												startRecording();
+												setSectionAudio("");
+											}}
+										>
+											<FontAwesomeIcon icon={faMicrophone} />
+										</span>
+										<span
+											style={{ cursor: "pointer" }}
+											className="p-3"
+											onClick={() => {
+												stopRecording();
+												setSectionAudio(audioResult);
+											}}
+										>
+											<FontAwesomeIcon icon={faStop} />
+										</span>
+										<span
+											style={{ cursor: "pointer" }}
+											className="p-3"
+											onClick={() => {
+												pauseRecording();
+												setSectionAudio("");
+											}}
+										>
+											<FontAwesomeIcon icon={faPause} />
+										</span>
+										<span
+											style={{ cursor: "pointer" }}
+											className="p-3"
+											onClick={() => {
+												resumeRecording();
+												setSectionAudio("");
+											}}
+										>
+											<FontAwesomeIcon icon={faPlay} />
+										</span>
+										{audioResult && (
+											<audio
+												className="mt-3"
+												controls
+												src={audioResult}
+												style={{
+													maxHeight: "100%",
+													maxWidth: "100%",
+													objectFit: "contain",
+												}}
+											/>
+										)}
+									</div>
 								</div>
 							</div>
+							<div className="pl-5">
+								<ReactMediaRecorder
+									setSectionVideo={setSectionVideo}
+									parentCaller={"course_section"}
+								/>
+							</div>
 						</div>
-						<div className="pl-5">
-							<ReactMediaRecorder
-								setSectionVideo={setSectionVideo}
-								parentCaller={"course_section"}
-							/>
-						</div>
-					</div>
 
-					<Form.Item style={{ display: "flex", justifyContent: "flex-end" }}>
-						<Button htmlType="submit">Submit</Button>
-					</Form.Item>
-				</Form>
-				<div className="-mt-10 ">
-					{state && componentDublicator}
-					<div className="mt-5">
-						<Button
-							onClick={() => {
-								setState(true);
-								if (state) {
-									handleAddSection();
-								}
-							}}
-						>
-							Add snippet
-						</Button>
+						<Form.Item style={{ display: "flex", justifyContent: "flex-end" }}>
+							<Button htmlType="submit">Submit</Button>
+						</Form.Item>
+					</Form>
+					<div className="-mt-10 ">
+						{state && componentDublicator}
+						<div className="mt-5">
+							<Button
+								onClick={() => {
+									setState(true);
+									if (state) {
+										handleAddSection();
+									}
+								}}
+							>
+								Add snippet
+							</Button>
+						</div>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</>
 	);
 };
