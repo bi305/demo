@@ -4,7 +4,8 @@ import { useAudioRecorder } from "@sarafhbk/react-audio-recorder";
 import { motion } from "framer-motion";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faPause, faStop, faPlay, } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faPause, faStop, faPlay,faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from "react";
 const ReactMediaRecorder = dynamic(
     () => import("../VideoRecorder/videoRecorder"),
     {
@@ -25,6 +26,8 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
         status,
 
     } = useAudioRecorder();
+    const [deleteAudio, SetDeleteAudio] = useState(false);
+
     return (
         <>
             <motion.div
@@ -103,20 +106,23 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         >
                                             <FontAwesomeIcon icon={faMicrophone} />
                                         </span>
-                                        <span
+                                        <button
                                             style={{ cursor: "pointer" }}
                                             className="p-3"
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.preventDefault();
                                                 stopRecording();
                                                 setSnippetAudio(audioResult)
+                                                SetDeleteAudio(true);
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faStop} />
-                                        </span>
+                                        </button>
                                         <span
                                             style={{ cursor: "pointer" }}
                                             className="p-3"
                                             onClick={() => {
+
                                                 pauseRecording();
                                                 setSnippetAudio("")
                                             }}
@@ -133,11 +139,33 @@ const SectionSnippert = ({ renderKey, snippetValues, setSnippetAudio, setSnippet
                                         >
                                             <FontAwesomeIcon icon={faPlay} />
                                         </span>
-                                        {audioResult && <audio className='mt-3' controls src={audioResult} style={{
-                                            maxHeight: '100%',
-                                            maxWidth: '100%',
-                                            objectFit: 'contain'
-                                        }} />}
+                                        {audioResult.length && deleteAudio ? (
+                                            <>
+                                                <div className="flex justify-between">
+                                                    <audio
+                                                        className="mt-3"
+                                                        controls
+                                                        src={audioResult}
+                                                        style={{
+                                                            maxHeight: "100%",
+                                                            maxWidth: "100%",
+                                                            objectFit: "contain",
+                                                        }}
+                                                    />
+                                                    <div className=" pt-4">
+                                                        <FontAwesomeIcon
+                                                            style={{ cursor: "pointer" }}
+                                                            icon={faTrash}
+                                                            onClick={() => {
+                                                                SetDeleteAudio(false);
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                 </div>
                             </div>

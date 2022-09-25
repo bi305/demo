@@ -5,7 +5,7 @@ import { useAudioRecorder } from '@sarafhbk/react-audio-recorder'
 import CourseSection from "../CourseSection";
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faPause, faStop, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone, faPause, faStop, faPlay, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ReactMediaRecorder = dynamic(() => import('../VideoRecorder/videoRecorder'), {
     ssr: false,
@@ -27,6 +27,8 @@ const MainTab = () => {
     const [courseVideo, setCourseVideo] = useState()
     const [sectionVideo, setSectionVideo] = useState([])
     const [snippetVideo, setSnippetVideo] = useState([])
+
+    const [deleteAudio, SetDeleteAudio] = useState(false)
 
     const [state, setState] = useState(false);
     const sectionValues = (values) => {
@@ -161,11 +163,11 @@ const MainTab = () => {
 
                     <div className='md:grid md:grid-cols-2 md:ml-20 mt-20'  >
                         <div style={{
-                           height: '100%',
-                           padding: '50px',
-                           borderRadius: '20px',
-                           background: 'linear-gradient(225deg, #cacaca, #f0f0f0)',
-                           boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
+                            height: '100%',
+                            padding: '50px',
+                            borderRadius: '20px',
+                            background: 'linear-gradient(225deg, #cacaca, #f0f0f0)',
+                            boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
                         }} >
 
                             <p>
@@ -182,15 +184,16 @@ const MainTab = () => {
                                 >
                                     <FontAwesomeIcon icon={faMicrophone} />
                                 </span>
-                                <span style={{ cursor: 'pointer', }} className="p-3" onClick={() => {
-
+                                <button disabled={status === 'idle'} style={{ cursor: 'pointer', }} className="p-3" onClick={(e) => {
+                                    e.preventDefault()
                                     stopRecording();
-                                    setCourseAudio(audioResult);
+                                    setCourseAudio();
+                                    SetDeleteAudio(true)
 
                                 }}>
                                     <FontAwesomeIcon icon={faStop} />
 
-                                </span>
+                                </button>
                                 <span style={{ cursor: 'pointer', }} className="p-3" onClick={() => {
 
                                     pauseRecording()
@@ -208,11 +211,25 @@ const MainTab = () => {
                                 }>
                                     <FontAwesomeIcon icon={faPlay} />
                                 </span>
-                                {audioResult && <audio className='mt-3' controls src={audioResult} style={{
-                                    maxHeight: '100%',
-                                    maxWidth: '100%',
-                                    objectFit: 'contain'
-                                }} />}
+                                {audioResult.length && deleteAudio ?
+                                    <><div className='flex justify-between'>
+
+                                        <audio className='mt-3' controls src={audioResult} style={{
+                                            maxHeight: '100%',
+                                            maxWidth: '100%',
+                                            objectFit: 'contain'
+                                        }} />
+                                        <div className=" pt-4">
+
+                                            <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faTrash} onClick={() => {
+                                                SetDeleteAudio(false)
+                                                audioResult = false
+                                            }} />
+                                        </div>
+                                    </div>
+                                    </>
+                                    : ''
+                                }
                             </div>
                         </div>
                         <div className="pl-5" >

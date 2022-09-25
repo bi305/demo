@@ -1,12 +1,10 @@
 import React from 'react'
-import {
-
-    useRecordWebcam,
-    CAMERA_STATUS
-} from "react-record-webcam";
+import { useRecordWebcam, CAMERA_STATUS } from "react-record-webcam";
 import { Button, Dropdown, Menu, } from 'antd';
-import { faCamera, faRecordVinyl, faVideo, faStopwatch, faDownload, faTrashRestoreAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faRecordVinyl, faVideo, faStopwatch, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 const OPTIONS = {
     filename: "test-filename",
     fileType: "mp4",
@@ -101,6 +99,7 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
     return (
         <>
 
+
             <div style={{
                 height: '100%',
                 padding: '50px',
@@ -109,29 +108,6 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
                 boxShadow: " 9px 9px 19px #cecece, - 9px - 9px 19px #f2f2f2"
             }}>
                 <p>Camera status: {recordWebcam.status}</p>
-                {/* 
-                <div style={{ cursor: 'pointer' }}
-                    disabled={
-                        recordWebcam.status === CAMERA_STATUS.OPEN ||
-                        recordWebcam.status === CAMERA_STATUS.RECORDING ||
-                        recordWebcam.status === CAMERA_STATUS.PREVIEW
-                    }
-                    onClick={recordWebcam.open}
-                >
-                    Open camera
-                </div>
-                <div style={{ cursor: 'pointer' }}
-                    disabled={
-                        recordWebcam.status === CAMERA_STATUS.CLOSED ||
-                        recordWebcam.status === CAMERA_STATUS.PREVIEW
-                    }
-                    onClick={recordWebcam.close}
-                >
-                    Close camera
-                </div>
-                <Dropdown overlay={menu} placement="top">
-                    <Button>Video Options</Button>
-                </Dropdown> */}
                 <div>
                     <span className='p-2' style={{ cursor: 'pointer' }}
                         disabled={
@@ -139,7 +115,8 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
                             recordWebcam.status === CAMERA_STATUS.RECORDING ||
                             recordWebcam.status === CAMERA_STATUS.PREVIEW
                         }
-                        onClick={recordWebcam.open}
+                        onClick={
+                            recordWebcam.open}
                     >
                         Open <FontAwesomeIcon icon={faCamera} />
                     </span>
@@ -173,7 +150,7 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
                         disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
                         onClick={recordWebcam.retake}
                     >
-                        Retake <FontAwesomeIcon icon={faTrashRestoreAlt} />
+                        Retake <FontAwesomeIcon icon={faTrash} />
                     </span>
 
                     <span className='p-2' style={{ cursor: 'pointer' }}
@@ -210,3 +187,29 @@ const videoRecorder = ({ parentCaller, setCourseVideo, setSectionVideo, setSnipp
 }
 
 export default videoRecorder
+
+
+
+
+
+
+
+// import React from "react";
+// import { useReactMediaRecorder } from "react-media-recorder";
+// const RecordView = () => {
+//     const { status, startRecording, stopRecording, mediaBlobUrl, pauseRecording, resumeRecording } =
+//         useReactMediaRecorder({ video: true });
+
+//     return (
+
+//         <div>
+//             <p>{status}</p>
+//             <button onClick={startRecording}>Start Recording</button>
+//             <button onClick={stopRecording}>Stop Recording</button>
+//             <button onClick={pauseRecording}>Pause</button>
+//             <button onClick={resumeRecording}>resume</button>
+//             <video src={mediaBlobUrl} controls autoPlay />
+//         </div>
+//     );
+// };
+// export default RecordView;
